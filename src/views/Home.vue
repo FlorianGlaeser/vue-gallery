@@ -1,18 +1,41 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Gallery</h1>
+
+    <button v-if="this.$store.state.login" @click="toggleComponent">Change to {{ changeMessage }}</button>
+    <keep-alive>
+      <component
+        :is="component"
+      ></component>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import TheLogin from '@/components/TheLogin'
+import TheGallery from '@/components/TheGallery'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    TheLogin,
+    TheGallery,
+  },
+  data() {
+    return {
+      component: TheLogin,
+      changeMessage: "gallery",
+    };
+  },
+  methods: {
+    toggleComponent() {
+      this.component = this.component === TheLogin
+        ? TheGallery
+        : TheLogin;
+      this.changeMessage = this.changeMessage === "gallery"
+        ? "login"
+        : "gallery";
+    },
   }
-}
+};
 </script>
